@@ -1,1 +1,1 @@
-STUDYING MERN FOR CLERKIE INTERVIEW
+I am studying the mern stack for my clerkie.io technical assessment.
