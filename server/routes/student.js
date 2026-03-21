@@ -1,24 +1,24 @@
-// routes/record.js
+// routes/student.js
 import express from 'express'
-import Record from '../models/record.js'
+import Student from '../models/student.js'
 
 const router = express.Router()
 
-// GET all band members
+// GET all students
 router.get('/', async (req, res) => {
 	try {
-		const members = await Record.find()
-		res.json(members)
+		const students = await Student.find()
+		res.json(students)
 	} catch (err) {
 		res.status(500).json({ error: err.message })
 	}
 })
 
-// POST a new band member
+// POST a new student
 router.post('/', async (req, res) => {
 	try {
-		const member = new Record(req.body)
-		const saved = await member.save()
+		const student = new Student(req.body)
+		const saved = await student.save()
 		res.status(201).json(saved)
 	} catch (err) {
 		res.status(400).json({ error: err.message })
