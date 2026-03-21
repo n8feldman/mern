@@ -1,1 +1,1 @@
-I am studying the mern stack for my clerkie.io technical assessment.
+I am studying the mern stack for an upcoming technical assessment.
