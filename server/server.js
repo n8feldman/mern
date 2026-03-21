@@ -1,17 +1,20 @@
+import './db.js'
 import express from 'express'
-import cors from 'cors'
-import records from './routes/record.js'
+import records from './routes/record.js' // now pointing to our band member routes
 
-import './db.js';
-
-const PORT = process.env.PORT || 5050
 const app = express()
+const PORT = process.env.PORT || 5050
 
-app.use(cors())
 app.use(express.json())
+
+// sanity check
+app.get('/', (req, res) => {
+	res.send('Server is running')
+})
+
+// use the band member routes
 app.use('/record', records)
 
-// start the Express server
 app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`)
+	console.log(`Server running on port ${PORT}`)
 })
