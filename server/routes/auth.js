@@ -1,5 +1,7 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
 import Teacher from '../models/teacher.js'
 
 const router = express.Router()
@@ -44,7 +46,13 @@ router.post('/login', async (req, res) => {
 			})
 		}
 
-		res.json(teacher)
+		const token = jwt.sign(
+			{ id: teacher._id, email: teacher.email },
+			'your_jwt_secret'
+		)
+
+		res.json({ token })
+    
 	} catch (err) {
 		res.status(500).json({ error: err.message })
 	}

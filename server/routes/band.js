@@ -1,11 +1,12 @@
 // routes/band.js
 import express from 'express'
 import Band from '../models/band.js'
+import authMiddleware from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET all bands
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
 	try {
 		const filter = {}
 
