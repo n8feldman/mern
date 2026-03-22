@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 			filter.bandId = req.query.bandId
 		}
 
-		const students = await Student.find(filter)
+		const students = await Student.find(filter).populate('bandId', 'name')
 
 		res.json(students)
 	} catch (err) {
