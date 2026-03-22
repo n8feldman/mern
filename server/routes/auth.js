@@ -21,4 +21,33 @@ router.post('/register', async (req, res) => {
 	}
 })
 
+router.post('/login', async (req, res) => {
+	try {
+		const teacher = await Teacher.findOne({
+			email: req.body.email,
+		})
+
+		if (!teacher) {
+			return res.status(400).json({
+				error: 'Invalid email',
+			})
+		}
+
+		const validPassword = await bcrypt.compare(
+			req.body.password,
+			teacher.password
+		)
+
+		if (!validPassword) {
+			return res.status(400).json({
+				error: 'Invalid password',
+			})
+		}
+
+		res.json(teacher)
+	} catch (err) {
+		res.status(500).json({ error: err.message })
+	}
+})
+
 export default router
