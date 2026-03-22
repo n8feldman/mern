@@ -1,6 +1,6 @@
 import Band from '../models/band.js'
 
-export const getBands = async (req, res) => {
+export const getBands = async (req, res, next) => {
 	try {
 		const bands = await Band.find({
 			teacherId: req.user.id,
@@ -8,7 +8,7 @@ export const getBands = async (req, res) => {
 
 		res.json(bands)
 	} catch (err) {
-		res.status(500).json({ error: err.message })
+		next(err)
 	}
 }
 

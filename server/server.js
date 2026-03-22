@@ -6,6 +6,7 @@ import bands from './routes/band.js'
 // import teachers from './routes/teacher.js'
 
 import auth from './routes/auth.js'
+import errorHandler from './middleware/errorHandler.js'
 
 const app = express()
 const PORT = process.env.PORT || 5050
@@ -21,6 +22,9 @@ app.use('/students', students);
 app.use('/bands', bands)
 // app.use('/teachers', teachers)
 app.use('/auth', auth)
+
+// Keep this after the other routes
+app.use(errorHandler)
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
