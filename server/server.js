@@ -1,4 +1,4 @@
-import './db.js'
+import './config/db.js'
 import express from 'express'
 
 import students from './routes/student.js'
