@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 		})
 
 		const saved = await teacher.save()
-		
+
 		res.status(201).json({
 			_id: saved._id,
 			name: saved.name,
@@ -53,7 +53,8 @@ router.post('/login', async (req, res) => {
 
 		const token = jwt.sign(
 			{ id: teacher._id, email: teacher.email },
-			'your_jwt_secret'
+			'your_jwt_secret',
+			{ expiresIn: '1h' }
 		)
 
 		res.json({ token })
