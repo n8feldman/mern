@@ -1,19 +1,23 @@
 // routes/student.js
 import express from 'express'
 import Student from '../models/student.js'
+import Band from '../models/band.js'
+import authMiddleware from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET all students
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
 	try {
-		const filter = {}
+		const bands = await Band.find({
+			teacherId: req.user.id,
+		})
 
-		if (req.query.bandId) {
-			filter.bandId = req.query.bandId
-		}
+		const bandIds = bands.map((band) => band._id)
 
-		const students = await Student.find(filter).populate('bandId', 'name')
+		const students = await Student.find({
+			bandId: { $in: bandIds },
+		}).populate('bandId')
 
 		res.json(students)
 	} catch (err) {
@@ -22,9 +26,25 @@ router.get('/', async (req, res) => {
 })
 
 // POST a new student
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
 	try {
-		const student = new Student(req.body)
+		const band = await Band.findOne({
+			_id: req.body.bandId,
+			teacherId: req.user.id,
+		})
+
+		if (!band) {
+			return res.status(403).json({
+				error: 'You cannot add students to this band',
+			})
+		}
+
+		const student = new Student({
+			name: req.body.name,
+			instrument: req.body.instrument,
+			bandId: req.body.bandId,
+		})
+
 		const saved = await student.save()
 		res.status(201).json(saved)
 	} catch (err) {
