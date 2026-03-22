@@ -87,3 +87,77 @@ export const createStudent = async (req, res) => {
 		res.status(400).json({ error: err.message })
 	}
 }
+
+export const updateStudent = async (req, res, next) => {
+	try {
+		const bands = await Band.find({
+			teacherId: req.user.id,
+		})
+
+		const bandIds = bands.map((b) => b._id)
+
+		const student = await Student.findOne({
+			_id: req.params.id,
+			bandId: { $in: bandIds },
+		})
+
+		if (!student) {
+			return res.status(404).json({
+				error: 'Student not found',
+			})
+		}
+
+		if (req.body.name !== undefined) {
+			if (!req.body.name.trim()) {
+				return res.status(400).json({
+					error: 'Name cannot be blank',
+				})
+			}
+
+			student.name = req.body.name.trim()
+		}
+
+		if (req.body.instrument !== undefined) {
+			if (!req.body.instrument.trim()) {
+				return res.status(400).json({
+					error: 'Instrument cannot be blank',
+				})
+			}
+
+			student.instrument = req.body.instrument.trim()
+		}
+
+		const saved = await student.save()
+
+		res.json(saved)
+	} catch (err) {
+		next(err)
+	}
+}
+
+export const deleteStudent = async (req, res, next) => {
+	try {
+		const bands = await Band.find({
+			teacherId: req.user.id,
+		})
+
+		const bandIds = bands.map((b) => b._id)
+
+		const student = await Student.findOneAndDelete({
+			_id: req.params.id,
+			bandId: { $in: bandIds },
+		})
+
+		if (!student) {
+			return res.status(404).json({
+				error: 'Student not found',
+			})
+		}
+
+		res.json({
+			message: 'Student deleted',
+		})
+	} catch (err) {
+		next(err)
+	}
+}
