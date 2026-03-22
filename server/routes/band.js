@@ -41,14 +41,19 @@ router.get('/:id', authMiddleware, async (req, res) => {
 // POST new band
 router.post('/', authMiddleware, async (req, res) => {
 	try {
+		if (!req.body.name || !req.body.name.trim()) {
+			return res.status(400).json({
+				error: 'Band name is required',
+			})
+		}
+
 		const band = new Band({
-			name: req.body.name,
+			name: req.body.name.trim(),
 			teacherId: req.user.id,
 		})
-    
+
 		const saved = await band.save()
 		res.status(201).json(saved)
-
 	} catch (err) {
 		res.status(400).json({ error: err.message })
 	}

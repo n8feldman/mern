@@ -54,6 +54,24 @@ router.get('/:id', authMiddleware, async (req, res) => {
 // POST a new student
 router.post('/', authMiddleware, async (req, res) => {
 	try {
+		if (!req.body.name || !req.body.name.trim()) {
+			return res.status(400).json({
+				error: 'Student name is required',
+			})
+		}
+
+		if (!req.body.instrument || !req.body.instrument.trim()) {
+			return res.status(400).json({
+				error: 'Instrument is required',
+			})
+		}
+
+		if (!req.body.bandId) {
+			return res.status(400).json({
+				error: 'bandId is required',
+			})
+		}
+
 		const band = await Band.findOne({
 			_id: req.body.bandId,
 			teacherId: req.user.id,
@@ -66,8 +84,8 @@ router.post('/', authMiddleware, async (req, res) => {
 		}
 
 		const student = new Student({
-			name: req.body.name,
-			instrument: req.body.instrument,
+			name: req.body.name.trim(),
+			instrument: req.body.instrument.trim(),
 			bandId: req.body.bandId,
 		})
 
