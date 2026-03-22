@@ -1,16 +1,20 @@
 import mongoose from 'mongoose'
 
-const bandSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
+const bandSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+			trim: true
+		},
+		teacherId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Teacher',
+			required: true,
+		},
 	},
-	teacherId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Teacher',
-		required: true,
-	},
-})
+	{ timestamps: true }
+)
 
 const Band = mongoose.model('Band', bandSchema)
 
