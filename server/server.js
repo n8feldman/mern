@@ -3,7 +3,7 @@ import express from 'express'
 
 import students from './routes/student.js'
 import bands from './routes/band.js'
-import teachers from './routes/teacher.js'
+// import teachers from './routes/teacher.js'
 
 import auth from './routes/auth.js'
 
