@@ -1,7 +1,7 @@
 import Student from '../models/student.js'
 import Band from '../models/band.js'
 
-export const getStudents = async (req, res) => {
+export const getStudents = async (req, res, next) => {
 	try {
 		const bands = await Band.find({
 			teacherId: req.user.id,
@@ -9,13 +9,34 @@ export const getStudents = async (req, res) => {
 
 		const bandIds = bands.map((band) => band._id)
 
+		let sortOption = {}
+
+		if (req.query.sort) {
+			const allowedSortFields = ['name', 'instrument']
+			const requestedSort = req.query.sort
+
+			let field = requestedSort
+			let direction = 1
+
+			if (requestedSort.startsWith('-')) {
+				field = requestedSort.slice(1)
+				direction = -1
+			}
+
+			if (allowedSortFields.includes(field)) {
+				sortOption[field] = direction
+			}
+		}
+
 		const students = await Student.find({
 			bandId: { $in: bandIds },
-		}).populate('bandId')
+		})
+			.sort(sortOption)
+			.populate('bandId')
 
 		res.json(students)
 	} catch (err) {
-		res.status(500).json({ error: err.message })
+		next(err)
 	}
 }
 
