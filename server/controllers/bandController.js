@@ -12,7 +12,7 @@ export const getBands = async (req, res, next) => {
 	}
 }
 
-export const getBandById = async (req, res) => {
+export const getBandById = async (req, res, next) => {
 	try {
 		const band = await Band.findOne({
 			_id: req.params.id,
@@ -27,11 +27,11 @@ export const getBandById = async (req, res) => {
 
 		res.json(band)
 	} catch (err) {
-		res.status(500).json({ error: err.message })
+		next(err)
 	}
 }
 
-export const createBand = async (req, res) => {
+export const createBand = async (req, res, next) => {
 	try {
 		if (!req.body.name || !req.body.name.trim()) {
 			return res.status(400).json({
@@ -47,6 +47,6 @@ export const createBand = async (req, res) => {
 		const saved = await band.save()
 		res.status(201).json(saved)
 	} catch (err) {
-		res.status(400).json({ error: err.message })
+		next(err)
 	}
 }

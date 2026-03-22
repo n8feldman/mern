@@ -58,3 +58,19 @@ export const loginTeacher = async (req, res) => {
 		res.status(500).json({ error: err.message })
 	}
 }
+
+export const getMe = async (req, res, next) => {
+	try {
+		const teacher = await Teacher.findById(req.user.id).select('_id name email')
+
+		if (!teacher) {
+			return res.status(404).json({
+				error: 'User not found',
+			})
+		}
+
+		res.json(teacher)
+	} catch (err) {
+		next(err)
+	}
+}
