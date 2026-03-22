@@ -7,7 +7,14 @@ const router = express.Router()
 // GET all bands
 router.get('/', async (req, res) => {
 	try {
-		const bands = await Band.find()
+		const filter = {}
+
+		if (req.query.teacherId) {
+			filter.teacherId = req.query.teacherId
+		}
+
+		const bands = await Band.find(filter).populate('teacherId', 'name email')
+
 		res.json(bands)
 	} catch (err) {
 		res.status(500).json({ error: err.message })
