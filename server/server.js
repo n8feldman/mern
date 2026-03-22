@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/students', students);
 app.use('/bands', bands)
-app.use('/teachers', teachers)
+// app.use('/teachers', teachers)
 app.use('/auth', auth)
 
 app.listen(PORT, () => {
