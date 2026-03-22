@@ -1,11 +1,20 @@
 import express from 'express'
+import bcrypt from 'bcrypt'
+
 import Teacher from '../models/teacher.js'
 
 const router = express.Router()
 
 router.post('/', async (req, res) => {
 	try {
-		const teacher = new Teacher(req.body)
+		const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+		const teacher = new Teacher({
+			name: req.body.name,
+			email: req.body.email,
+			password: hashedPassword,
+		})
+
 		const saved = await teacher.save()
 		res.status(201).json(saved)
 	} catch (err) {
