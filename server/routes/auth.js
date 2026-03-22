@@ -17,7 +17,12 @@ router.post('/register', async (req, res) => {
 		})
 
 		const saved = await teacher.save()
-		res.status(201).json(saved)
+		
+		res.status(201).json({
+			_id: saved._id,
+			name: saved.name,
+			email: saved.email,
+		})
 	} catch (err) {
 		res.status(400).json({ error: err.message })
 	}
