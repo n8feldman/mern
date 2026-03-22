@@ -8,13 +8,9 @@ const router = express.Router()
 // GET all bands
 router.get('/', authMiddleware, async (req, res) => {
 	try {
-		const filter = {}
-
-		if (req.query.teacherId) {
-			filter.teacherId = req.query.teacherId
-		}
-
-		const bands = await Band.find(filter).populate('teacherId', 'name email')
+		const bands = await Band.find({
+			teacherId: req.user.id,
+		}).populate('teacherId', 'name email')
 
 		res.json(bands)
 	} catch (err) {
