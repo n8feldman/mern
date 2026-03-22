@@ -7,7 +7,14 @@ const router = express.Router()
 // GET all students
 router.get('/', async (req, res) => {
 	try {
-		const students = await Student.find()
+		const filter = {}
+
+		if (req.query.bandId) {
+			filter.bandId = req.query.bandId
+		}
+
+		const students = await Student.find(filter)
+
 		res.json(students)
 	} catch (err) {
 		res.status(500).json({ error: err.message })
