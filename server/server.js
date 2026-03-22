@@ -5,6 +5,8 @@ import students from './routes/student.js'
 import bands from './routes/band.js'
 import teachers from './routes/teacher.js'
 
+import auth from './routes/auth.js'
+
 const app = express()
 const PORT = process.env.PORT || 5050
 
@@ -18,6 +20,7 @@ app.get('/', (req, res) => {
 app.use('/students', students);
 app.use('/bands', bands)
 app.use('/teachers', teachers)
+app.use('/auth', auth)
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
