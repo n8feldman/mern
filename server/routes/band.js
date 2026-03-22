@@ -19,11 +19,16 @@ router.get('/', authMiddleware, async (req, res) => {
 })
 
 // POST new band
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
 	try {
-		const band = new Band(req.body)
+		const band = new Band({
+			name: req.body.name,
+			teacherId: req.user.id,
+		})
+    
 		const saved = await band.save()
 		res.status(201).json(saved)
+
 	} catch (err) {
 		res.status(400).json({ error: err.message })
 	}
