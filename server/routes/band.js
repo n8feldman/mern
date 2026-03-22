@@ -18,6 +18,26 @@ router.get('/', authMiddleware, async (req, res) => {
 	}
 })
 
+// GET by band ID
+router.get('/:id', authMiddleware, async (req, res) => {
+	try {
+		const band = await Band.findOne({
+			_id: req.params.id,
+			teacherId: req.user.id,
+		}).populate('teacherId', 'name email')
+
+		if (!band) {
+			return res.status(404).json({
+				error: 'Band not found',
+			})
+		}
+
+		res.json(band)
+	} catch (err) {
+		res.status(500).json({ error: err.message })
+	}
+})
+
 // POST new band
 router.post('/', authMiddleware, async (req, res) => {
 	try {
