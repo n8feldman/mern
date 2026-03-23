@@ -1,6 +1,6 @@
 # MERN Band / Student API
 
-This project is a MERN backend API for Teachers to manage Bands and Students with authentication, filtering, protected routes, and integration testing using Vitest. A special "Hello!" to the team at C******.io, with whom I am currently interviewing (and studying for the technical assessment). This project was built entirely from scratch over the course of three days, with assistance along the way from both technical docs online and generative AI tools. All features were tested manually during the development process with the integration test page added at the end.
+This project is a MERN backend API for Teachers to manage Bands and Students with authentication, filtering, protected routes, and integration testing using Vitest. A special "Hello!" to the team at C******.io, with whom I am currently interviewing (and studying for the technical assessment). This project was built entirely from scratch over the course of three days, with assistance along the way from both technical docs online and generative AI tools. All features were tested manually during the development process with the integration testing script added at the end.
 
 Thank you and enjoy!
 
